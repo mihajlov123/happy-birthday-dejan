@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="sl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dejan, vse najboljše!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f2f2f2;
+      --text: #222;
+      --card-bg: #ffffff;
+      --accent: #4caf50;
+      --muted: #666;
+    }
+
+    body.dark {
+      --bg: #121212;
+      --text: #f2f2f2;
+      --card-bg: #1e1e1e;
+      --accent: #81c784;
+      --muted: #aaa;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: 'Raleway', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .toggle-wrapper {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      background: var(--card-bg);
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6px;
+      transition: background 0.4s ease;
+    }
+
+    .toggle-switch svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--text);
+      transition: opacity 0.4s ease;
+    }
+
+    .toggle-switch .sun {
+      opacity: 1;
+    }
+
+    .toggle-switch .moon {
+      opacity: 0;
+    }
+
+    body.dark .toggle-switch .sun {
+      opacity: 0;
+    }
+
+    body.dark .toggle-switch .moon {
+      opacity: 1;
+    }
+
+    .player-container {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    audio {
+      width: 100%;
+      max-width: 100%;
+      margin: 1rem 0 2rem;
+      filter: brightness(0.9) contrast(1.2);
+    }
+
+    .lyrics {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--muted);
+      white-space: pre-line;
+    }
+
+    .title-svg {
+      display: none;
+      margin: 0 auto 1.5rem;
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+    }
+
+    body:not(.dark) .title-svg.light-mode {
+      display: block;
+    }
+
+    body.dark .title-svg.dark-mode {
+      display: block;
+    }
+
+    .fontsize-wrapper {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .fontsize-wrapper button {
+      background: var(--card-bg);
+      color: var(--text);
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .fontsize-wrapper button:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+
+    .title-svg object {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .player-container {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="fontsize-wrapper">
+    <button id="decreaseFont" title="Decrease font size">−</button>
+    <button id="increaseFont" title="Increase font size">+</button>
+  </div>
+  <div class="toggle-wrapper">
+    <div class="toggle-switch" id="modeToggle" title="Toggle dark/light mode">
+      <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          d="M6.76 4.84l-1.8-1.79-1.42 1.42 1.79 1.8 1.43-1.43zm10.45 14.31l1.79 1.8 1.42-1.42-1.8-1.79-1.41 1.41zm1.8-12.49l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM4.22 17.66l1.8 1.79 1.41-1.41-1.79-1.8-1.42 1.42zM12 4V1h-1v3h1zm0 19v-3h-1v3h1zm8-8h3v-1h-3v1zM4 12H1v-1h3v1zm8-5a5 5 0 1 1 0 10 5 5 0 0 1 0-10z" />
+      </svg>
+      <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M21 12.79A9 9 0 0 1 11.21 3a7 7 0 1 0 9.79 9.79z" />
+      </svg>
+    </div>
+  </div>
+
+  <div class="player-container">
+    <object class="title-svg light-mode" type="image/svg+xml" data="heading-image-black.svg"></object>
+    <object class="title-svg dark-mode" type="image/svg+xml" data="heading-image-white.svg"></object>
+    <audio controls>
+      <source src="dejan-kibernetski-as.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <div class="lyrics">
+
+Hej, hej, Dejan, danes je tvoj dan!
+
+Štiriintrideset let, Dejan, kaj se godi,
+poročil si se, zdaj pa službo menjaš še ti!
+Z HSE na ELES boš šel, to že vsi vemo,
+zato ti za slovo eno zapojemo!
+
+Pred tremi leti, na tvoj rojstni dan,
+namesto torte si gledal loge ves dan.
+"Napad!" si zakričal in vse si ustavil,
+in rojstni dan si v vojni sobi proslavil!
+
+Tata Mata, Tata Mata,
+zaklenil je vsa vrata!
+Vsaka IT služba na zagovor gre,
+ko Dejan vpraša, potijo se vse!
+Zato zdaj vsi zapojmo v en glas:
+vse najboljše, Dejan, naš kibernetski as!
+
+Doma ima homelab, ki brni noč in dan,
+še hladilnik in pralni stroj imata svoj VLAN!
+Več VLAN-ov ima kot slovenska firma povprečna,
+žena za Wi-Fi odpre ticket, in če ga dobi, je srečna!
+
+Doma je zaklenil vse, od routerja do vrat,
+pa se sam je zaklenil ven že vsaj desetkrat!
+Ni virus, ni phishing, ni heker iz Rusije,
+največje tveganje za Dejana je Dejan, brez diskusije!
+(Root cause: Dejan!)
+
+Tata Mata, Tata Mata,
+zaklenil je vsa vrata!
+Vsaka IT služba na zagovor gre,
+ko Dejan vpraša, potijo se vse!
+Zato zdaj vsi zapojmo v en glas:
+vse najboljše, Dejan, naš kibernetski as!
+
+Claude, ChatGPT in Copilot, odprte ima vse tri,
+za vsako malenkost naredi projekt, da se ti zvrti!
+Vsak mail, preden gre ven, gre čez Copilotov pregled,
+še "Hvala, lp" mu napihne v tri odstavke in povzetek lep!
+Doma pa Facilitator je vedno prižgan,
+pri kosilu z ženo piše zapisnik in action plan!
+Ko žena reče: "Dejan, nesi smeti ven!",
+Facilitator zapiše: "Action item za Dejana, rok: ta teden!"
+
+Decembra dopust, ves mesec prost,
+pravi: "Treniral bom, suh bom kot kost!"
+A bodimo iskreni, to ni pravi čas,
+potica, klobase in kuhano vino čakajo nas!
+Raje vzemi harmoniko, nauči se še kak' komad,
+za novo leto pa nam zaigraj kakšno polko rad!
+
+Tata Mata, Tata Mata,
+zaklenil je vsa vrata!
+Vsaka IT služba na zagovor gre,
+ko Dejan vpraša, potijo se vse!
+Zato zdaj vsi zapojmo v en glas:
+vse najboljše, Dejan, naš kibernetski as!
+
+Srečno na ELES-u, naj tvoj SOC blesti,
+z ženo pa ljubezen kot firewall naj drži!
+Od HSE in ECE en velik pozdrav,
+vse najboljše, Dejan, ostani nam zdrav! (Hej!)
+    </div>
+
+    <!-- SLIKE (zakomentirano, legacy od Tomija) – zamenjaj src/napise s pravimi slikami za Dejana
+    <div style="margin-top: 2rem; text-align: center;">
+      <img src="../img/tomi_herc.jpg" alt="Image" style="max-width: 100%; height: auto; border-radius: 8px;" />
+      <p style="color: var(--muted); font-size: 0.95rem; margin-top: 0.5rem;">Vse najboljše Kapetanu reda in <a href="https://mihajlov123.github.io/birthday-song-tomi-jernej-2025/herc/">Doktorju štroma</a> - 2. junij 2025</p>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center;">
+      <img src="../img/ekipa_1_cela.jpg" alt="Image" style="max-width: 100%; height: auto; border-radius: 8px;" />
+      <p style="color: var(--muted); font-size: 0.95rem; margin-top: 0.5rem;">Ekipa I.</p>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center;">
+      <img src="../img/ekipa_2_cela.jpg" alt="Image" style="max-width: 100%; height: auto; border-radius: 8px;" />
+      <p style="color: var(--muted); font-size: 0.95rem; margin-top: 0.5rem;">Ekipa II.</p>
+    </div>
+    -->
+
+  </div>
+
+  <script>
+    const toggle = document.getElementById('modeToggle');
+    const body = document.body;
+
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+    });
+
+    const lyrics = document.querySelector('.lyrics');
+    let fontSize = 1; // rem
+
+    document.getElementById('increaseFont').addEventListener('click', () => {
+      if (fontSize < 3) {
+        fontSize += 0.1;
+        lyrics.style.fontSize = fontSize.toFixed(2) + 'rem';
+      }
+    });
+
+    document.getElementById('decreaseFont').addEventListener('click', () => {
+      if (fontSize > 0.6) {
+        fontSize -= 0.1;
+        lyrics.style.fontSize = fontSize.toFixed(2) + 'rem';
+      }
+    });
+  </script>
+
+</body>
+
+</html>
