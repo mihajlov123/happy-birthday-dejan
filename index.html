@@ -103,11 +103,64 @@
       filter: brightness(0.9) contrast(1.2);
     }
 
+    .style-picker {
+      border: none;
+      margin: 0 0 0.5rem;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .style-picker legend {
+      width: 100%;
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .style-picker input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .style-picker span {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--accent);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .style-picker input:checked + span {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--card-bg);
+    }
+
+    .style-picker input:focus-visible + span {
+      outline: 2px solid var(--text);
+      outline-offset: 2px;
+    }
+
     .lyrics {
       font-size: 1rem;
       line-height: 1.8;
       color: var(--muted);
       white-space: pre-line;
+    }
+
+    .cover {
+      display: block;
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      margin: 0 auto 1.5rem;
+      border-radius: 12px;
     }
 
     .title-svg {
@@ -189,10 +242,14 @@
   </div>
 
   <div class="player-container">
-    <object class="title-svg light-mode" type="image/svg+xml" data="heading-image-black.svg"></object>
-    <object class="title-svg dark-mode" type="image/svg+xml" data="heading-image-white.svg"></object>
-    <audio controls>
-      <source src="dejan-kibernetski-as.mp3" type="audio/mpeg" />
+    <img class="cover" src="cyber-kralj-naslovnica.png" alt="Cyber Kralj – vse najboljše, Dejan!" />
+    <fieldset class="style-picker">
+      <label><input type="radio" name="songStyle" value="Audio-narodnjaki.mp3" checked /><span>Narodnjaki</span></label>
+      <label><input type="radio" name="songStyle" value="Audio-slovenian-turbofolk.mp3" /><span>Slovenski turbofolk</span></label>
+      <label><input type="radio" name="songStyle" value="Audio-dalmatinske-klape.mp3" /><span>Dalmatinske klape</span></label>
+      <label><input type="radio" name="songStyle" value="Audio-electro-party.mp3" /><span>Electro party</span></label>
+    </fieldset>
+    <audio id="player" controls preload="metadata" src="Audio-narodnjaki.mp3">
       Your browser does not support the audio element.
     </audio>
     <div class="lyrics">
@@ -209,39 +266,46 @@ namesto torte si gledal loge ves dan.
 "Napad!" si zakričal in vse si ustavil,
 in rojstni dan si v vojni sobi proslavil!
 
-Tata Mata, Tata Mata,
-zaklenil je vsa vrata!
-Vsaka IT služba na zagovor gre,
-ko Dejan vpraša, potijo se vse!
-Zato zdaj vsi zapojmo v en glas:
-vse najboljše, Dejan, naš kibernetski as!
+Cyber Kralj, on je Cyber Kralj,
+njegov grad je SOC, njegov ščit je firewall!
+Kdor klikne na fishing, gre takoj na zagovor,
+Dejan ga zasliši, da najde odgovor!
+Dvignimo kozarce, naj se sliši daleč stran:
+vse najboljše, Dejan, Cyber Kralj, to je tvoj dan!
 
-Doma ima homelab, ki brni noč in dan,
-še hladilnik in pralni stroj imata svoj VLAN!
-Več VLAN-ov ima kot slovenska firma povprečna,
-žena za Wi-Fi odpre ticket, in če ga dobi, je srečna!
+Doma ima homlab, ki brni noč in dan,
+še hladilnik in pralni stroj imata svoj VE-LAN!
+Več VE-LAN-ov ima kot slovenska firma povprečna,
+Anja za Wi-Fi odpre ticket, in če ga dobi, je srečna!
 
 Doma je zaklenil vse, od routerja do vrat,
 pa se sam je zaklenil ven že vsaj desetkrat!
-Ni virus, ni phishing, ni heker iz Rusije,
-največje tveganje za Dejana je Dejan, brez diskusije!
+Ni virus, ni fishing, ni heker iz Rusije,
+največje tveganje je Dejan sam, brez diskusije!
 (Root cause: Dejan!)
 
-Tata Mata, Tata Mata,
-zaklenil je vsa vrata!
-Vsaka IT služba na zagovor gre,
-ko Dejan vpraša, potijo se vse!
-Zato zdaj vsi zapojmo v en glas:
-vse najboljše, Dejan, naš kibernetski as!
+Cyber Kralj, on je Cyber Kralj,
+njegov grad je SOC, njegov ščit je firewall!
+Kdor klikne na fishing, gre takoj na zagovor,
+Dejan ga zasliši, da najde odgovor!
+Dvignimo kozarce, naj se sliši daleč stran:
+vse najboljše, Dejan, Cyber Kralj, to je tvoj dan!
 
 Claude, ChatGPT in Copilot, odprte ima vse tri,
 za vsako malenkost naredi projekt, da se ti zvrti!
 Vsak mail, preden gre ven, gre čez Copilotov pregled,
-še "Hvala, lp" mu napihne v tri odstavke in povzetek lep!
+še "Hvala, lep pozdrav" mu napihne v tri odstavke in povzetek lep!
 Doma pa Facilitator je vedno prižgan,
-pri kosilu z ženo piše zapisnik in action plan!
-Ko žena reče: "Dejan, nesi smeti ven!",
+pri kosilu piše zapisnik in action plan!
+Ko Anja reče: "Dejan, nesi smeti ven!",
 Facilitator zapiše: "Action item za Dejana, rok: ta teden!"
+
+Z novo službo bo pa tudi hiša hitro stala,
+plača z ELES-a bo opeko kar sama zidala!
+Še prej bi bila gotova, če bi agenti znali zidat',
+a Claude in Copilot ne znata niti lopate držat'!
+Zato naj zraste palača, kot se kralju spodobi,
+s stolpom za server rack in VE-LAN-om v vsaki sobi!
 
 Decembra dopust, ves mesec prost,
 pravi: "Treniral bom, suh bom kot kost!"
@@ -250,15 +314,15 @@ potica, klobase in kuhano vino čakajo nas!
 Raje vzemi harmoniko, nauči se še kak' komad,
 za novo leto pa nam zaigraj kakšno polko rad!
 
-Tata Mata, Tata Mata,
-zaklenil je vsa vrata!
-Vsaka IT služba na zagovor gre,
-ko Dejan vpraša, potijo se vse!
-Zato zdaj vsi zapojmo v en glas:
-vse najboljše, Dejan, naš kibernetski as!
+Cyber Kralj, on je Cyber Kralj,
+njegov grad je SOC, njegov ščit je firewall!
+Kdor klikne na fishing, gre takoj na zagovor,
+Dejan ga zasliši, da najde odgovor!
+Dvignimo kozarce, naj se sliši daleč stran:
+vse najboljše, Dejan, Cyber Kralj, to je tvoj dan!
 
 Srečno na ELES-u, naj tvoj SOC blesti,
-z ženo pa ljubezen kot firewall naj drži!
+z Anjo pa ljubezen kot firewall naj drži!
 Od HSE in ECE en velik pozdrav,
 vse najboljše, Dejan, ostani nam zdrav! (Hej!)
     </div>
@@ -288,6 +352,15 @@ vse najboljše, Dejan, ostani nam zdrav! (Hej!)
 
     toggle.addEventListener('click', () => {
       body.classList.toggle('dark');
+    });
+
+    const player = document.getElementById('player');
+    document.querySelectorAll('input[name="songStyle"]').forEach((radio) => {
+      radio.addEventListener('change', () => {
+        const wasPlaying = !player.paused;
+        player.src = radio.value;
+        if (wasPlaying) player.play();
+      });
     });
 
     const lyrics = document.querySelector('.lyrics');
